@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, LogBox } from 'react-native';
+import AppNavigator from './src/navigation/AppNavigator';
+
+
+LogBox.ignoreLogs([
+  'Setting a timer',
+  'AsyncStorage has been extracted from react-native core',
+]);
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  try {
+    return <AppNavigator />;
+  } catch (error) {
+    console.error("❌ App crashed:", error);
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>Something went wrong 🚨</Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 16,
+    color: 'red',
+    textAlign: 'center',
+    padding: 16,
   },
 });
